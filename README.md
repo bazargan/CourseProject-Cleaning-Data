@@ -15,8 +15,8 @@
 #### At this step, names of the variables are also added as labels to the data set (part 4). This is done out of order, i.e. before part 3, because there was no indication of the importance of the order these tasks are done and also because it makes it easier to work with the data and trace the script.
 #### Next step is to read the activity names into R and use these descriptive names as opposed to integer numbers that were initially used in the data set (part 3).
 #### Then, the data set is reshaped to summarize the data and create a tidy data set that contains the average of each variable for each subject and each activity (part 5). Variable names are also consequently changed to represent the change in the value, as they are now averaged over the given subject and activity. This tidy data set is then written into "TidyDataset.txt" file in the "UCI HAR dataset" folder.
-### *README.md* describes how the script is implemented and how it works, it also has information about the files that are included in the repo.
-### *Cook book.txt* contains the information about the variables that are included in the output of the script.
-### *TidyDataset.txt* is the tidy data set that is created by running the script. It is submitted separately in the assignment page but it is included here as well for the ease of access. 
+### *README.md* #### describes how the script is implemented and how it works, it also has information about the files that are included in the repo.
+### *Cook book.txt* #### contains the information about the variables that are included in the output of the script.
+### *TidyDataset.txt* #### is the tidy data set that is created by running the script. It is submitted separately in the assignment page but it is included here as well for the ease of access. 
 
      
