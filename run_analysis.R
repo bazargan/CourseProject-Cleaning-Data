@@ -44,4 +44,4 @@
         }
         colnames(ReshapedData) <- ReshapedDataNames
         
-        write.table(ReshapedData, "./UCI HAR Dataset/TidyDataset.txt")
+        write.table(ReshapedData, "./UCI HAR Dataset/TidyDataset.txt", row.names = FALSE)
