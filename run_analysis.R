@@ -1,4 +1,4 @@
-
+        library(reshape2)
         TestSet <- read.table("./UCI HAR Dataset/test/X_test.txt")
         TestSubjectSet <- read.table("./UCI HAR Dataset/test/subject_test.txt")
         TestActivitySet <- read.table("./UCI HAR Dataset/test/y_test.txt")
@@ -12,17 +12,17 @@
         # Part 1 of the project: combining test and traning datasets
         FullDataSet <- rbind(TestData, TrainData)
         
-        # Part 2 of the project: extracting mean and std features
+        # Part 2 and 4 of the project: extracting mean and std features, and labeling the variables (Step 4 
+        # is done early on as it is helpful to have the right lables for debugging purposes)
         Features <- read.table("./UCI HAR Dataset/features.txt")
         
-        # Part 4 of the project: Not in order but it's easier to work with
-        # meaningful labels from the beginning
-        colnames(FullDataSet) <- c("Subjects", "Activiities", as.character(Features[,2]))
+        colnames(FullDataSet) <- c("Subject", "Activity", as.character(Features[,2]))
         
-        meanIndex <- grep("mean()", Features[,2])   #Maybe just mean instead of mean()
-        stdIndex <- grep("std()", Features[,2])
-        mean_std_features <- c(1,2,c(meanIndex, stdIndex) + 2)
-        mean_std_DataSet <- FullDataSet[,sort(mean_std_features)]
+        meanIndex <- grep("mean", Features[,2])
+        stdIndex <- grep("std", Features[,2])
+        mean_std_FeatureIndex <- sort(c(meanIndex, stdIndex))
+        mean_std_DatasetIndex <- c(1,2, mean_std_FeatureIndex + 2)
+        mean_std_DataSet <- FullDataSet[,mean_std_DatasetIndex]
         
         # Part 3 of the project: Using descriptive activity names instead of numbers
         Activities <- read.table("./UCI HAR Dataset/activity_labels.txt")
@@ -31,3 +31,17 @@
                 mean_std_DataSet[i,2] <- as.character(Activities[mean_std_DataSet[i,2],2])
         }
         
+        # Part 5 of the project: Creating an independent tidy data set with the
+        # average of each variable in the feature list for each activity and each subject  
+        variables <- Features[mean_std_FeatureIndex,2]
+        DataMelted <- melt(mean_std_DataSet, id=c("Subject", "Activity"), measure.vars = variables)
+        ReshapedData = dcast(DataMelted, Subject + Activity ~ variables, mean)
+        
+        # Changing the name of variables to indicate that these values are now averaged over Subject and Activity
+        ReshapedDataNames <- names(ReshapedData)
+        for (i in 1:length(mean_std_FeatureIndex)) {
+                ReshapedDataNames[i+2] <- paste("Averaged", ReshapedDataNames[i+2], sep="-")
+        }
+        colnames(ReshapedData) <- ReshapedDataNames
+        
+        write.table(ReshapedData, "./UCI HAR Dataset/TidyDataset.txt")
