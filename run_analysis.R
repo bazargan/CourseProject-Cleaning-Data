@@ -35,7 +35,7 @@
         # average of each variable in the feature list for each activity and each subject  
         variables <- Features[mean_std_FeatureIndex,2]
         DataMelted <- melt(mean_std_DataSet, id=c("Subject", "Activity"), measure.vars = variables)
-        ReshapedData = dcast(DataMelted, Subject + Activity ~ variables, mean)
+        ReshapedData = dcast(DataMelted, Subject + Activity ~ ..., mean)
         
         # Changing the name of variables to indicate that these values are now averaged over Subject and Activity
         ReshapedDataNames <- names(ReshapedData)
